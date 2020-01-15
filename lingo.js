@@ -9,8 +9,11 @@ for (var c = 0; c < word.length; c++) {
 }
 
 document.getElementById("letter1").innerHTML = "De eerste letter: " + word.charAt(0);//shows the first letter of the word on the page
-function submitWord() {
+function submitWord(event) {
+	event.preventDefault();
 	input = document.getElementById("input").value;
+	var InputLetters = input.split("");
+	var WordLetters = word.split("");
 	var correct = 0;
 	if (playing) {
 		for (var a = 0; a < input.length; a++) {
@@ -18,13 +21,19 @@ function submitWord() {
 			letter.innerHTML = input.charAt(a);
 			letter.setAttribute("id", "letters"+a);
 			document.getElementById("textContainer").appendChild(letter);
-	 		if (word.charAt(a) == input.charAt(a)) {
+	 		if (InputLetters[a] == WordLetters[a] /*word.charAt(a) == input.charAt(a)*/) {
 	 			letter.style.backgroundColor = "green";
 	 			letter.style.borderRadius = null;
 	 			correct++
-	 		}else if (word.indexOf(input.charAt(a)) >= 0) {
+	 			WordLetters[a] = "*";
+	 			InputLetters[a] = "-";
+	 		}else if (WordLetters.indexOf(InputLetters[a]) >= 0) {
 	 			letter.style.backgroundColor = "yellow";
 	 			letter.style.borderRadius = "50%";
+	 			WordLetters[WordLetters.indexOf(InputLetters[a])] = "*";
+	 			InputLetters[a] = "-"; 
+	 			console.log(WordLetters)
+	 			console.log(InputLetters)
 	 		}else {
 	 			letter.style.backgroundColor = "white";
 	 			letter.style.borderRadius = null;
